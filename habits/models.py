@@ -28,10 +28,6 @@ class Habits(models.Model):
     action = models.CharField(
         max_length=140, verbose_name="Действие"
     )
-    utc_time = models.TimeField(
-        verbose_name="Время исполнения привычки в формате UTC, вычисляется автоматически по time_offset пользователя",
-        **NULLABLE
-    )
     weekday_offset = models.IntegerField(
         default=0, verbose_name="Смещение дня недели относительно UTC. Заполняется автоматически."
     )
