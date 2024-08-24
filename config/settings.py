@@ -170,7 +170,7 @@ CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 CELERY_BEAT_SCHEDULE = {
     "habits.tasks.find_all_habits": {
         "task": "habits.tasks.find_all_habits",
-        "schedule": timedelta(minutes=1),
+        "schedule": timedelta(minutes=2),
     }
 }
 

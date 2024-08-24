@@ -14,15 +14,15 @@ def send_information_about_habit(message, tg_chat_id):
 def find_all_habits():
     print("find_all_habits")
 
-    habit_time = datetime.now()
-    current_weekday = datetime.now().weekday()
+    habit_time = timezone.now()  # Используем timezone.now() для корректного учета часового пояса
+    current_weekday = habit_time.weekday()
 
     # Интервал в несколько минут
-    start_time = habit_time - timedelta(minutes=2, seconds=0, microseconds=0)
-    end_time = habit_time + timedelta(minutes=2, seconds=0, microseconds=0)
+    start_time = habit_time - timedelta(minutes=1)
+    end_time = habit_time + timedelta(minutes=1)
 
     # Фильтрация привычек по времени с учетом интервала
-    habits = Habits.objects.filter(user__isnull=False, utc_time__gte=start_time, utc_time__lte=end_time)
+    habits = Habits.objects.filter(user__isnull=False, time__gte=start_time, time__lte=end_time)
 
     # Словарь для сопоставления дня недели и поля привычки
     day_mapping = {
