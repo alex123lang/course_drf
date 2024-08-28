@@ -17,9 +17,9 @@ services:
           - pg_data:/var/lib/postgresql/data
         healthcheck:
           test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
-          interval: 10s
-          retries: 5
-          timeout: 5s
+          interval: 20s
+          retries: 10
+          timeout: 30s
         environment:
           - POSTGRES_USER=${POSTGRES_USER}
           - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -40,7 +40,7 @@ services:
     celery:
         build: .
         tty: true
-        command: celery -A config worker -l info -P eventlet
+        command: celery -A config worker -l info
         volumes:
           - .:/app
         depends_on:
@@ -50,17 +50,17 @@ services:
         env_file:
           - .env
     celery-beat:
-      build: .
-      tty: true
-      command: celery -A config beat -l info
-      volumes:
-        - .:/app
-      depends_on:
-        - redis
-        - db
-        - app
-      env_file:
-        - .env
+        build: .
+        tty: true
+        command: sh -c "sleep 30 && celery -A config beat -l info"
+        volumes:
+          - .:/app
+        depends_on:
+          - redis
+          - db
+          - app
+        env_file:
+          - .env
 
 
 volumes:
